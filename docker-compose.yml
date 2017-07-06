@@ -12,7 +12,7 @@ services:
     entrypoint: mix
     command: test
     environment:
-      MIX_ENV: test
+      MIX_ENV: dev
     working_dir: /code
     volumes:
       - .:/code
