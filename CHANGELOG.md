@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.3] - 2017-08-13
+- Fixed crash when the directory configured for the file loader has sub-directories
+
 ## [2.1.2] - 2017-07-06
 - Loaders can now be configured and a single function, `Weave.configure()`, used to load.
 
