@@ -18,6 +18,13 @@ defmodule Test.Feature.Steps.File do
     {:ok, Map.merge(state, %{expected_configuration: files})}
   end
 
+  defand ~r/^the following directories exist there$/, %{table: directories}, state = %{file_directory: file_directory} do
+    Enum.each(directories, fn(%{directory_name: directory_name}) ->
+      File.mkdir("#{file_directory}/#{directory_name}")
+    end)
+    {:ok, state}
+  end
+
   defwhen ~r/^I run Weave's File loader$/, _vars, state do
     Weave.Loaders.File.load_configuration()
     {:ok, state}

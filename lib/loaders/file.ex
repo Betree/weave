@@ -23,7 +23,7 @@ defmodule Weave.Loaders.File do
     do
       Logger.debug fn -> "Found configuration parameters: #{inspect files}" end
       Enum.each(files, fn (file_name) ->
-        load_configuration(file_directory, file_name, handler)
+        if :false == File.dir?("#{file_directory}/#{file_name}"), do: load_configuration(file_directory, file_name, handler)
       end)
     else
       :weave_no_directory -> Logger.warn fn -> "Tried to load configuration, but {:weave, :file_directory} hasn't been configured" end
