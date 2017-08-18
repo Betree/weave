@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.0] - 2017-08-18
+- Ability to configure the file loader with multiple directories
+  - `file_directories` has been added, expecting a list of directories. This should be considered the de-facto way to configure the file loader, with `:file_directory` being deprecated in 3.0
+
 ## [2.1.2] - 2017-07-06
 - Loaders can now be configured and a single function, `Weave.configure()`, used to load.
 
