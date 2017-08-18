@@ -24,9 +24,9 @@ end
 
 ```elixir
 config :weave,
-  file_directory: "path/to/secrets", # Only needed when using the File loader
-  environment_prefix: "MYAPP_",      # Only needed when using the Environment loader
-  handler: Your.Handler,             # Always needed :smile:
+  file_directories: ["/path/to/secrets"]  # Only needed when using the File loader
+  environment_prefix: "MYAPP_",           # Only needed when using the Environment loader
+  handler: Your.Handler,                  # Always needed :smile:
   loaders: [
     Weave.Loaders.File,
     Weave.Loaders.Environment
