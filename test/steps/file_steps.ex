@@ -62,10 +62,12 @@ defmodule Test.Feature.Steps.File do
   end
 
   defthen ~r/^my application should be configured$/, _vars, state = %{expected_configuration: expected_configuration} do
-    Map.get(state, :file_directories, [Map.get(state, :file_directory)])
-    |> Enum.each(fn(directory) ->
-      File.rm_rf(directory)
-    end)
+    Enum.each(
+      Map.get(state, :file_directories, [Map.get(state, :file_directory)]),
+      fn(directory) ->
+        File.rm_rf(directory)
+      end
+    )
 
     Enum.each(expected_configuration, fn(%{file_name: key, contents: value}) ->
       assert Application.get_env(:weave, String.to_atom(key)) == value

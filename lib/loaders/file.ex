@@ -44,7 +44,7 @@ defmodule Weave.Loaders.File do
 
     :ok
   end
-  
+
   defp get_configured_directories() do
     Application.get_env(:weave, :file_directories, [Application.get_env(:weave, :file_directory, :weave_no_directory)])
   end
