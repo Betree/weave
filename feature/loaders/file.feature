@@ -5,7 +5,7 @@ Feature: It can load configuration from a configured directory
 
   Scenario: Load configuration from a single directory
     Given I have configured Weave with a handler
-    And I have configured Weave's file loader to load from a single directory, "/run/secrets"
+    And I have configured Weave's file loader to load from a single directory, "/tmp/secrets"
     And the directory exists
     And the following files exist there
     | file_name         | contents                  |
@@ -16,7 +16,7 @@ Feature: It can load configuration from a configured directory
 
   Scenario: Can load configuration even when directories exist in secrets directory
     Given I have configured Weave with a handler
-    And I have configured Weave's file loader to load from a single directory, "/run/secrets"
+    And I have configured Weave's file loader to load from a single directory, "/tmp/secrets"
     And the directory exists
     And the following files exist there
       | file_name         | contents                  |
@@ -32,12 +32,12 @@ Feature: It can load configuration from a configured directory
     Given I have configured Weave with a handler
     And I have configured weave to load configuration from
     | directory      |
-    | /run/secrets-a |
-    | /run/secrets-b |
+    | /tmp/secrets-a |
+    | /tmp/secrets-b |
     And the directories exist
     And the following files exist in the directories
     | directory      | file_name         | contents                  |
-    | /run/secrets-a | cookie_secret     | I am super Secur3         |
-    | /run/secrets-b | database_password | my-super-secret-password  |
+    | /tmp/secrets-a | cookie_secret     | I am super Secur3         |
+    | /tmp/secrets-b | database_password | my-super-secret-password  |
     When I run Weave's File loader
     Then my application should be configured
