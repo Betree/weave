@@ -3,9 +3,9 @@ Feature: It can load configuration from a configured directory
   As a Developer,
   I need to be able to configure my application from files on disk
 
-  Scenario: Load configuration
+  Scenario: Load configuration from a single directory
     Given I have configured Weave with a handler
-    And I have configured Weave's File loader to load configuration from "secrets"
+    And I have configured Weave's file loader to load from a single directory, "/run/secrets"
     And the directory exists
     And the following files exist there
     | file_name         | contents                  |
@@ -16,7 +16,7 @@ Feature: It can load configuration from a configured directory
 
   Scenario: Can load configuration even when directories exist in secrets directory
     Given I have configured Weave with a handler
-    And I have configured Weave's File loader to load configuration from "secrets"
+    And I have configured Weave's file loader to load from a single directory, "/run/secrets"
     And the directory exists
     And the following files exist there
       | file_name         | contents                  |
@@ -25,5 +25,19 @@ Feature: It can load configuration from a configured directory
     And the following directories exist there
       | directory_name    |
       | kubernetes.io     |
+    When I run Weave's File loader
+    Then my application should be configured
+
+  Scenario: Load configuration from multiple file directories
+    Given I have configured Weave with a handler
+    And I have configured weave to load configuration from
+    | directory      |
+    | /run/secrets-a |
+    | /run/secrets-b |
+    And the directories exist
+    And the following files exist in the directories
+    | directory      | file_name         | contents                  |
+    | /run/secrets-a | cookie_secret     | I am super Secur3         |
+    | /run/secrets-b | database_password | my-super-secret-password  |
     When I run Weave's File loader
     Then my application should be configured

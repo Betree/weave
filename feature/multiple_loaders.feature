@@ -11,8 +11,8 @@ Feature: It can be configured to load configuration using multiple loaders
     And the following environment variables exist
     | key               | value                     |
     | database_host     | my-database-host.com      |
-
-    And I have configured Weave's File loader to load configuration from "secrets"
+    
+    And I have configured Weave's file loader to load from a single directory, "secrets"
     And the directory exists
     And the following files exist there
     | file_name         | contents                  |
