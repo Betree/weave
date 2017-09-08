@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0] - 2017-09-08
+### NEW MAJOR VERSION DUE TO BREAKING CHANGE / API
+Sorry about this, but after you've seen the examples, I'm sure you'll agree this is a much nicer way to work with your configuration.
+
+- No more `def handle_configuration/2` functions :tada:
+  - Check the `/example` folder for an example of the new Weave module format
+  - Configuration can be marked as `required: true`, which will cause an error if it's not satisfied
+
 ## [2.2.0] - 2017-08-18
 - Ability to configure the file loader with multiple directories
   - `file_directories` has been added, expecting a list of directories. This should be considered the de-facto way to configure the file loader, with `:file_directory` being deprecated in 3.0
