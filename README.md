@@ -24,7 +24,7 @@ end
 
 ```elixir
 config :weave,
-  file_directories: ["/path/to/secrets"]  # Only needed when using the File loader
+  file_directories: ["/path/to/secrets"], # Only needed when using the File loader
   environment_prefix: "MYAPP_",           # Only needed when using the Environment loader
   loaders: [
     Weave.Loaders.File,
@@ -44,7 +44,7 @@ defmodule MyApp.Weave do
 
   weave "some_environment_var_without_the_prefix",
     required: false,                # required: can be omitted and defaults to false
-    hander:   {:myapp, :some_key}   # handler: can be a function, list or tuple
+    hander:   {:myapp, :some_key},  # handler: can be a function, list or tuple
     hander:   [{:myapp, :some_key}, {:myapp, :another_key}]
     hander:   fn(value) -> Logger.configure(value) end)
 end
