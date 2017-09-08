@@ -1,6 +1,10 @@
 defmodule Test.Feature.Steps.File do
   use Cabbage.Feature
 
+  defand ~r/^I have not configured the file_directories$/, _vars, state do
+    {:ok, state}
+  end
+
   defgiven ~r/^I have configured Weave's file loader to load from a single directory, "(?<file_directory>[^"]+)"$/, %{file_directory: file_directory}, state do
     Application.put_env(:weave, :file_directory, file_directory)
 
@@ -56,7 +60,7 @@ defmodule Test.Feature.Steps.File do
   end
 
   defwhen ~r/^I run Weave's File loader$/, _vars, state do
-    Weave.Loaders.File.load_configuration()
+    Weave.Loaders.File.load_configuration(MyApp.Weave)
 
     {:ok, state}
   end
@@ -70,7 +74,7 @@ defmodule Test.Feature.Steps.File do
     )
 
     Enum.each(expected_configuration, fn(%{file_name: key, contents: value}) ->
-      assert Application.get_env(:weave, String.to_atom(key)) == value
+      assert Application.get_env(:example_app, String.to_atom(key)) == value
     end)
 
     {:ok, %{}}

@@ -8,7 +8,7 @@ volumes:
 
 services:
   elixir:
-    image: elixir:1.4
+    image: elixir:latest
     entrypoint: mix
     command: test
     environment:

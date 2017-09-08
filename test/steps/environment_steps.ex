@@ -6,6 +6,10 @@ defmodule Test.Feature.Steps.Environment do
     {:ok, Map.merge(state, %{environment_prefix: environment_prefix})}
   end
 
+  defand ~r/^I have not configured the environment prefix$/, _vars, state do
+    {:ok, state}
+  end
+
   defand ~r/^the following environment variables exist$/, %{table: variables}, state = %{environment_prefix: environment_prefix} do
     Enum.each(variables, fn(%{key: key, value: value}) ->
       System.put_env("#{environment_prefix}#{key}", value)
@@ -14,13 +18,13 @@ defmodule Test.Feature.Steps.Environment do
   end
 
   defwhen ~r/^I run Weave's Environment loader$/, _vars, state do
-    Weave.Loaders.Environment.load_configuration()
+    Weave.Loaders.Environment.load_configuration(MyApp.Weave)
     {:ok, state}
   end
 
   defthen ~r/^my application should be configured$/, _vars, %{expected_configuration: expected_configuration} do
     Enum.each(expected_configuration, fn(%{key: key, value: value}) ->
-       assert Application.get_env(:weave, String.to_atom(key)) == value
+       assert Application.get_env(:example_app, String.to_atom(key)) == value
     end)
     {:ok, %{}}
   end

@@ -7,7 +7,7 @@ defmodule Weave.Loader do
   ```
   """
 
-  @callback load_configuration() :: any
+  @callback load_configuration() :: {:ok, list()}
 
   defmacro __using__(_) do
     quote do
@@ -15,33 +15,44 @@ defmodule Weave.Loader do
 
       @behaviour Weave.Loader
 
-      @spec apply_configuration(binary(), binary(), atom()) :: :ok
+      @spec apply_configuration(binary(), binary(), atom())
+        :: :ok
+      @spec configure({atom(), atom(), any()})
+        :: :ok
+      @spec configure([{atom(), atom(), any()}])
+        :: :ok | []
+      @spec merge(any(), any())
+        :: list() | map() | binary()
+      @spec handle_configuration(binary(), binary())
+        :: :ok
+      @spec sanitize(binary())
+        :: binary()
+
       defp apply_configuration(name, contents, handler) do
-        try do
-          name
-          |> sanitize()
-          |> handler.handle_configuration(contents)
-          |> configure()
-        rescue
-          error in [UndefinedFunctionError, FunctionClauseError] ->
-            Logger.info fn -> inspect(error) end
-            handle_configuration(name, contents)
-        end
+        name
+        |> sanitize()
+        |> handler.handle_configuration(contents)
+        |> configure()
 
         :ok
+      rescue
+        error in [UndefinedFunctionError, FunctionClauseError] ->
+          Logger.info fn -> inspect(error) end
+          handle_configuration(name, contents)
       end
 
       # We're transforming this to a List, as I believe we'll
       # eventually enforce all handle_configuration/1's return List
-      @spec configure({atom(), atom(), any()}) :: :ok
       defp configure({app, key, value}) do
         configure([{app, key, value}])
       end
 
-      @spec configure([{atom(), atom(), any()}]) :: :ok | []
       defp configure([{app, key, value} | tail]) do
-        Application.put_env(app, key, merge(Application.get_env(app, key), value))
-        Logger.debug fn -> "Configuration for #{app}:#{key} loaded: #{inspect Application.get_env(app, key)}" end
+        Application.put_env(app, key,
+          merge(Application.get_env(app, key), value)
+        )
+        Logger.debug fn -> "Configuration for #{app}:#{key} loaded: "
+          <> "#{inspect Application.get_env(app, key)}" end
 
         configure(tail)
       end
@@ -50,7 +61,6 @@ defmodule Weave.Loader do
         :ok
       end
 
-      @spec merge(any(), any()) :: list() | map() | binary()
       defp merge(nil, new) when is_list(new) do
         merge([], new)
       end
@@ -77,11 +87,12 @@ defmodule Weave.Loader do
         new
       end
 
-      @spec handle_configuration(binary(), binary()) :: :ok
       defp handle_configuration(parameter_name, "{:auto," <> configuration) do
         {{app, key, value}, []} = Code.eval_string(~s/{#{configuration}/)
 
-        Application.put_env(app, key, merge(Application.get_env(app, key), value))
+        Application.put_env(app, key,
+          merge(Application.get_env(app, key), value)
+        )
 
         :ok
       end
@@ -93,7 +104,6 @@ defmodule Weave.Loader do
         :ok
       end
 
-      @spec sanitize(binary()) :: binary()
       defp sanitize(name) do
         String.downcase(name)
       end

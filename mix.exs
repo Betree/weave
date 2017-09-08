@@ -24,16 +24,18 @@ defmodule Weave.Mixfile do
   end
 
   def deps do
-    [ {:ex_doc, ">= 0.0.0", only: :dev},
+    [
+      {:cabbage, "~> 0.3.2", only: :test},
+      {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
-      {:excoveralls, "~> 0.4", only: :test},
-      {:cabbage, "~> 0.3.1", only: :test}
+      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:excoveralls, "~> 0.4", only: :test}
     ]
   end
 
   def aliases do
     [ "init": ["local.hex --force", "deps.get"],
-      "test": ["test"]
+      "test": ["coveralls"]
     ]
   end
 
@@ -52,6 +54,6 @@ defmodule Weave.Mixfile do
   end
 
   defp elixirc_paths(:dev),   do: ["lib"]
-  defp elixirc_paths(:test),  do: ["test", "test/support"] ++ elixirc_paths(:dev)
+  defp elixirc_paths(:test),  do: ["test", "test/support", "example"] ++ elixirc_paths(:dev)
   defp elixirc_paths(_),      do: ["lib"]
 end

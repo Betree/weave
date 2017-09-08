@@ -1,6 +1,4 @@
 defmodule Weave.Loaders.Environment do
-  use Weave.Loader
-
   @moduledoc """
   This loader will utilise the available environment variables to provide configuration. A prefix must be specified in the configuration:
 
@@ -12,22 +10,33 @@ defmodule Weave.Loaders.Environment do
 
   This means "MY_APP_NAME" will become "name"
   """
+  use Weave.Loader
 
-  @spec load_configuration() :: :ok
-  def load_configuration() do
-    with {:ok, environment_prefix}  <- Application.fetch_env(:weave, :environment_prefix),
-      {:ok, handler}                <- Application.fetch_env(:weave, :handler),
-      environment_variables         <- System.get_env()
+  @spec load_configuration(atom()) :: list()
+
+  def load_configuration(handler) do
+    with {:ok, environment_prefix}
+        <- Application.fetch_env(:weave, :environment_prefix),
+      environment_variables
+        <- System.get_env()
     do
-      Enum.filter_map(environment_variables,
-        fn({key, value}) -> String.starts_with?(key, environment_prefix) end,
-        fn({key, value}) ->
-          apply_configuration(String.trim_leading(key, environment_prefix), value, handler)
-        end)
-    else
-      :error -> Logger.warn fn -> "Tried to load configuration, but :weave hasn't been configured properly. Check :environment_prefix and :handler" end
-    end
+      configured_keys = environment_variables
+      |> Enum.filter(fn({key, value}) ->
+        String.starts_with?(key, environment_prefix)
+      end)
+      |> Enum.map(fn({key, value}) ->
+        {String.trim_leading(key, environment_prefix), value}
+      end)
+      |> Enum.map(fn({key, value}) ->
+        apply_configuration(key, value, handler)
 
-    :ok
+        key
+      end)
+      configured_keys
+    else
+      _ ->
+          Logger.warn fn -> "Tried to load configuration, but :weave hasn't been configured properly. Check :environment_prefix" end
+          []
+    end
   end
 end

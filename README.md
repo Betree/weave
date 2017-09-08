@@ -26,20 +26,29 @@ end
 config :weave,
   file_directories: ["/path/to/secrets"]  # Only needed when using the File loader
   environment_prefix: "MYAPP_",           # Only needed when using the Environment loader
-  handler: Your.Handler,                  # Always needed :smile:
   loaders: [
     Weave.Loaders.File,
     Weave.Loaders.Environment
   ]
 ```
 
-### Manual Handler
+### :weave Module
 
-Your handler is responsible for taking these environment variables, and/or files, and injecting their values into configuration.
+In order to transform environment variables, or file contents, to runtime configuration, you must tell `:weave` how to handle those values.
 
-`handle_configuration/2` should return a tuple with the `:app` to set the key value pair on.
+You do this by creating a `:weave` module, such as:
 
-Weave will handle merging, so try not to worry about that :smile:
+```elixir
+defmodule MyApp.Weave do
+  use Weave
+
+  weave "some_environment_var_without_the_prefix",
+    required: false,                # required: can be omitted and defaults to false
+    hander:   {:myapp, :some_key}   # handler: can be a function, list or tuple
+    hander:   [{:myapp, :some_key}, {:myapp, :another_key}]
+    hander:   fn(value) -> Logger.configure(value) end)
+end
+```
 
 #### Example
 
@@ -56,23 +65,17 @@ Before being passed to your handler:
 * Environment variables have the prefix stripped
 
 ```elixir
-defmodule Your.Handler do
-  def handle_configuration("name", value) do
-    {:app, :name, value}
-  end
+defmodule MyApp.Weave do
+  use Weave
 
-  def handle_configuration("db_password", value) do
-    {:app, :password, value}
-  end
+  weave "name",         handler: {:app, :name}
+  weave "db_password",  required: true, handler: {:app, :password}
 
   # Sometimes you need to use the same value twice, so return a list.
-  # NB: We *may* make returning lists the default in the future.
-  def handle_configuration("kafka_host", host) do
-    [
-      {:kaffe, :consumer, [host: {String.to_atom(host): 9092}]},
-      {:kaffe, :producer, [host: {String.to_atom(host): 9092}]}
-    ]
-  end
+  weave "kafka_host", handler: [
+    {:kaffe, :consumer},
+    {:kaffe, :producer}
+  ]
 end
 ```
 
@@ -86,31 +89,20 @@ In-order to cut down on the boilerplate, you can use the "handler-free" approach
 {:auto, :app, :name, value}
 ```
 
-NB: For now, `config :weave, handler: BLAH` is still required, even if no `handle_configuration/2` functions.
-
 ### Loading Configuration
 
-You'll need to add the following to your `start` function, before you prepare your supervisor:
+You'll need to add the following to your `configure` function, before you prepare your supervisor:
 
 ```elixir
-Weave.configure()
-```
-
-If you really wish, you can omit `:loaders` during configuration and load from it manually:
-
-```elixir
-Weave.Loaders.Environment.load_configuration()
-Weave.Loaders.File.load_configuration()
+MyApp.Weave.configure()
 ```
 
 ### Logging
 
 Weave **may** log sensitive information at the `debug` level, stick to `info` in production.
 
-### Contributing
-
 #### Running Tests with Docker
 
 ```shell
-$ docker-compose run --rm elixir
+$ make clean deps test
 ```

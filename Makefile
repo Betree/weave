@@ -4,6 +4,9 @@ clean:
 deps:
 	@docker-compose run --rm elixir deps.get
 
+lint:
+	@docker-compose run --rm elixir credo --strict
+
 test:
 	@docker-compose run --rm -e MIX_ENV=test elixir test
 

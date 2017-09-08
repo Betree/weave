@@ -4,7 +4,7 @@ Feature: It can load configuration from a configured directory
   I need to be able to configure my application from files on disk
 
   Scenario: Load configuration from a single directory
-    Given I have configured Weave with a handler
+    Given I have created my own Weave module
     And I have configured Weave's file loader to load from a single directory, "/tmp/secrets"
     And the directory exists
     And the following files exist there
@@ -15,7 +15,7 @@ Feature: It can load configuration from a configured directory
     Then my application should be configured
 
   Scenario: Can load configuration even when directories exist in secrets directory
-    Given I have configured Weave with a handler
+    Given I have created my own Weave module
     And I have configured Weave's file loader to load from a single directory, "/tmp/secrets"
     And the directory exists
     And the following files exist there
@@ -29,7 +29,7 @@ Feature: It can load configuration from a configured directory
     Then my application should be configured
 
   Scenario: Load configuration from multiple file directories
-    Given I have configured Weave with a handler
+    Given I have created my own Weave module
     And I have configured weave to load configuration from
     | directory      |
     | /tmp/secrets-a |
@@ -41,3 +41,9 @@ Feature: It can load configuration from a configured directory
     | /tmp/secrets-b | database_password | my-super-secret-password  |
     When I run Weave's File loader
     Then my application should be configured
+
+  Scenario: No file_directories configured
+    Given I have created my own Weave module
+    And I have not configured the file_directories
+    When I run Weave's File loader
+    Then it shouldn't fail and return an empty list
