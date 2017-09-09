@@ -16,7 +16,7 @@ This library makes it possible to load configuration, especially secrets, from d
 
 ```elixir
 def deps do
-  [{:weave, "~> 3.0"}]
+  [{:weave, "~> 3.0.1"}]
 end
 ```
 

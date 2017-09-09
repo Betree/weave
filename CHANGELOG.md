@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.1] - 2017-09-09
+- Fixed a bug that stopped required fields from being marked as satisfied
+
 ## [3.0.0] - 2017-09-08
 ### NEW MAJOR VERSION DUE TO BREAKING CHANGE / API
 Sorry about this, but after you've seen the examples, I'm sure you'll agree this is a much nicer way to work with your configuration.

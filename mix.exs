@@ -2,8 +2,9 @@ defmodule Weave.Mixfile do
   use Mix.Project
 
   def project do
-    [ app: :weave,
-      version: "3.0.0",
+    [
+      app: :weave,
+      version: "3.0.1",
       elixir: "~> 1.3",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
@@ -18,9 +19,11 @@ defmodule Weave.Mixfile do
   end
 
   def application do
-    [ applications: [
-      :logger
-    ] ]
+    [
+      applications: [
+        :logger
+      ]
+    ]
   end
 
   def deps do
@@ -34,7 +37,8 @@ defmodule Weave.Mixfile do
   end
 
   def aliases do
-    [ "init": ["local.hex --force", "deps.get"],
+    [
+      "init": ["local.hex --force", "deps.get"],
       "test": ["coveralls"]
     ]
   end
@@ -46,11 +50,13 @@ defmodule Weave.Mixfile do
   end
 
   defp package do
-    [ name: :weave,
+    [
+      name: :weave,
       files: ["lib", "mix.exs", "README.md", "LICENSE"],
       maintainers: ["GT8Online"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/GT8Online/weave"}]
+      links: %{"GitHub" => "https://github.com/GT8Online/weave"}
+    ]
   end
 
   defp elixirc_paths(:dev),   do: ["lib"]
