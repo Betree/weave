@@ -30,7 +30,7 @@ defmodule Weave.Loaders.Environment do
       |> Enum.map(fn({key, value}) ->
         apply_configuration(key, value, handler)
 
-        key
+        sanitize(key)
       end)
       configured_keys
     else

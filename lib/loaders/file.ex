@@ -63,7 +63,7 @@ defmodule Weave.Loaders.File do
     end)
     |> Enum.map(fn(file) ->
       load_configuration(directory, file, handler)
-      file
+      sanitize(file)
     end)
   end
 
