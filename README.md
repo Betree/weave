@@ -4,6 +4,7 @@
 [![Hex.pm](https://img.shields.io/hexpm/l/weave.svg)](https://hex.pm/packages/weave)
 [![Hex.pm](https://img.shields.io/hexpm/dw/weave.svg)](https://hex.pm/packages/weave)
 [![Build Status](https://travis-ci.org/GT8Online/weave.svg?branch=master)](https://travis-ci.org/GT8Online/weave)
+[![Ebert](https://ebertapp.io/github/GT8Online/weave.svg)](https://ebertapp.io/github/GT8Online/weave)
 [![codecov](https://codecov.io/gh/GT8Online/weave/branch/master/graph/badge.svg)](https://codecov.io/gh/GT8Online/weave)
 
 ## A JIT configuration loader for Elixir
