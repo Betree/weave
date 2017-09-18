@@ -1,3 +1,5 @@
+TESTS=
+
 clean:
 	@docker-compose down -v
 
@@ -8,7 +10,7 @@ lint:
 	@docker-compose run --rm elixir credo --strict
 
 test:
-	@docker-compose run --rm -e MIX_ENV=test elixir test
+	@docker-compose run --rm -e MIX_ENV=test elixir test $(TESTS)
 
 analyse:
 	@docker-compose run --rm elixir dialyzer
