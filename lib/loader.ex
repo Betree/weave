@@ -41,6 +41,11 @@ defmodule Weave.Loader do
           handle_configuration(name, contents)
       end
 
+      # Allow handlers to return :ok
+      defp configure(:ok) do
+        :ok
+      end
+
       # We're transforming this to a List, as I believe we'll
       # eventually enforce all handle_configuration/1's return List
       defp configure({app, key, value}) do
@@ -84,6 +89,10 @@ defmodule Weave.Loader do
       end
 
       defp merge(old, new) when is_binary(new) do
+        new
+      end
+
+      defp merge(old, new) when is_atom(new) do
         new
       end
 
