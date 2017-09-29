@@ -1,11 +1,13 @@
 # Weave
 
+**Note:** The canonical repository is hosted [here](https://gitlab.com/gt8/open-source/elixir/weave), on GitLab.com.
+
 [![Hex.pm](https://img.shields.io/hexpm/v/weave.svg)](https://hex.pm/packages/weave)
 [![Hex.pm](https://img.shields.io/hexpm/l/weave.svg)](https://hex.pm/packages/weave)
 [![Hex.pm](https://img.shields.io/hexpm/dw/weave.svg)](https://hex.pm/packages/weave)
-[![Build Status](https://travis-ci.org/GT8Online/weave.svg?branch=master)](https://travis-ci.org/GT8Online/weave)
-[![Ebert](https://ebertapp.io/github/GT8Online/weave.svg)](https://ebertapp.io/github/GT8Online/weave)
-[![codecov](https://codecov.io/gh/GT8Online/weave/branch/master/graph/badge.svg)](https://codecov.io/gh/GT8Online/weave)
+[![build status](https://gitlab.com/gt8/open-source/elixir/weave/badges/master/pipeline.svg)](https://gitlab.com/gt8/open-source/elixir/weave/commits/master)
+[![code coverage](https://gitlab.com/gt8/open-source/elixir/weave/badges/master/coverage.svg)](https://gitlab.com/gt8/open-source/elixir/weave/commits/master)
+
 
 ## A JIT configuration loader for Elixir
 
@@ -33,11 +35,11 @@ config :weave,
   ]
 ```
 
-### :weave Module
+### Weave Module
 
-In order to transform environment variables, or file contents, to runtime configuration, you must tell `:weave` how to handle those values.
+In order to transform environment variables, or file contents, to runtime configuration, you must tell Weave how to handle those values.
 
-You do this by creating a `:weave` module, such as:
+You do this by creating a Weave module, such as:
 
 ```elixir
 defmodule MyApp.Weave do
