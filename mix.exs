@@ -49,7 +49,7 @@ defmodule Weave.Mixfile do
       files: ["lib", "mix.exs", "README.md", "LICENSE"],
       maintainers: ["GT8Online"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/GT8Online/weave"}]
+      links: %{"GitLab" => "https://gitlab.com/gt8/open-source/elixir/weave"}]
   end
 
   defp elixirc_paths(:dev),   do: ["lib"]
