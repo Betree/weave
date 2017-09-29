@@ -15,6 +15,10 @@
 
 This library makes it possible to load configuration, especially secrets, from disk (Ala Docker Swarm / Kubernetes) on start-up.
 
+#### Icon
+
+“To Weave” icon by Amrit Mazumder from the Noun Project.
+
 ### Installation
 
 ```elixir
