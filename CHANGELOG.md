@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.1.1] - 2017-10-02
+- Migrated project to GitLab (with repository mirroring to GitHub)
+
 ## [3.1.0] - 2017-09-18
 - Allow handlers to return `:ok`
   - This is useful for  configuring the Logger at runtime, which you can't do with
