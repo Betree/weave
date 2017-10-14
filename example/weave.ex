@@ -18,4 +18,6 @@ defmodule MyApp.Weave do
 
     :ok
   end
+
+  weave "vault_secret_1", handler: {:example_app, :vault_secret_1}
 end

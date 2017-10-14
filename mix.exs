@@ -25,6 +25,8 @@ defmodule Weave.Mixfile do
 
   def deps do
     [
+      {:vaultex, "~> 0.3"},
+
       {:cabbage, "~> 0.3.2", only: :test},
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
