@@ -51,9 +51,9 @@ defmodule MyApp.Weave do
 
   weave "some_environment_var_without_the_prefix",
     required: false,                # required: can be omitted and defaults to false
-    hander:   {:myapp, :some_key},  # handler: can be a function, list or tuple
-    hander:   [{:myapp, :some_key}, {:myapp, :another_key}]
-    hander:   fn(value) -> Logger.configure(value) end)
+    handler:   {:myapp, :some_key},  # handler: can be a function, list or tuple
+    handler:   [{:myapp, :some_key}, {:myapp, :another_key}]
+    handler:   fn(value) -> Logger.configure(value) end)
 end
 ```
 
