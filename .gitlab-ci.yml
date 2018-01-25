@@ -9,13 +9,12 @@ stages:
   - test
 
 before_script:
-  - mix local.hex --force
-  - mix local.rebar --force
+  - make init
 
 get-dependencies:
   stage: setup
   script:
-    - mix deps.get
+    - make deps
   artifacts:
     expire_in: 30 minutes
     paths:
@@ -25,11 +24,16 @@ get-dependencies:
 compile:
   stage: build
   script:
-    - mix compile
+    - make compile
+
+lint:
+  stage: test
+  script:
+    - make lint
 
 tests:
   stage: test
   script:
-    - mix credo --strict
+    - make test
     - mix coveralls.json
   coverage: /\[TOTAL\]\s+(\d+\.\d+)%/

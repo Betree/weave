@@ -1,22 +1,14 @@
 version: "3.1"
 
 volumes:
-  hex: ~
-  mix: ~
   deps: ~
   build: ~
 
 services:
   elixir:
     image: elixir:latest
-    entrypoint: mix
-    command: test
     environment:
       MIX_ENV: dev
     working_dir: /code
     volumes:
       - .:/code
-      - hex:/root/.hex
-      - mix:/root/.mix
-      - deps:/code/deps
-      - build:/code/_build
