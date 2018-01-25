@@ -1,18 +1,32 @@
 TESTS=
 
-clean:
+dshell:
+	@docker-compose run --rm elixir bash
+
+dclean:
 	@docker-compose down -v
 
+###
+
+clean:
+	@mix clean
+
+init:
+	@mix do local.hex --force, local.rebar --force
+
 deps:
-	@docker-compose run --rm elixir deps.get
+	@mix deps.get
+
+compile:
+	@mix compile
 
 lint:
-	@docker-compose run --rm elixir credo --strict
+	@MIX_ENV=test mix credo --strict
 
 test:
-	@docker-compose run --rm -e MIX_ENV=test elixir test $(TESTS)
+	@MIX_ENV=test mix test $(TESTS)
 
 analyse:
-	@docker-compose run --rm elixir dialyzer
+	@mix dialyzer
 
 .PHONY: test deps
