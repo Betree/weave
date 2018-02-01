@@ -28,7 +28,7 @@ defmodule Weave.Loaders.File do
   @spec load_configuration(atom()) :: list()
   @spec get_configured_directories() :: list() | binary() | :weave_no_directory
   @spec load_configuration(binary(), binary(), atom()) :: :ok
-  @spec load_configuration_from_directory(binary(), atom(), binary()) :: :ok
+  @spec load_configuration_from_directory(binary(), atom(), list()) :: :ok
 
   def load_configuration(handler) do
     with file_directories when file_directories !== [:weave_no_directory]
