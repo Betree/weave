@@ -4,3 +4,5 @@ mix.lock
 /deps
 erl_crash.dump
 *.ez
+.idea
+weave.iml

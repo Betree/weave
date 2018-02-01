@@ -10,7 +10,21 @@ defmodule Test.Feature.Steps.Shared do
     {:ok, %{}}
   end
 
+  defand ~r/^I have configured the following variables in variables filter$/, %{table: variables}, state do
+    variables_names = Enum.map(variables, &(Map.get(&1, :key)))
+    Application.put_env(:weave, :only, variables_names)
+    {:ok, Map.merge(state, %{only: variables_names})}
+  end
+
+  defand ~r/^I have not configured the variables filter with keyword "(?<keyword_only>[^"]+)"$/, _vars, state do
+    {:ok, state}
+  end
+
   defgiven ~r/^I have created my own Weave module$/, _vars, state do
+    # Reset weave configuration
+    for {key, _} <-  Application.get_all_env(:weave), do: Application.delete_env(:weave, key)
+    # Reset example app configuration
+    for {key, _} <-  Application.get_all_env(:example_app), do: Application.delete_env(:example_app, key)
     {:ok, state}
   end
 

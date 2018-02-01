@@ -32,7 +32,8 @@ end
 ```elixir
 config :weave,
   file_directories: ["/path/to/secrets"], # Only needed when using the File loader
-  environment_prefix: "MYAPP_",           # Only needed when using the Environment loader
+  environment_prefix: "MYAPP_",           # Only needed when using the Environment loader or if "only" is not specified
+  only: [:atom_secret, "binary_secret"],  # (Optional) Will only load matching variables
   loaders: [
     Weave.Loaders.File,
     Weave.Loaders.Environment
@@ -52,7 +53,7 @@ defmodule MyApp.Weave do
   weave "some_environment_var_without_the_prefix",
     required: false,                # required: can be omitted and defaults to false
     handler:   {:myapp, :some_key},  # handler: can be a function, list or tuple
-    handler:   [{:myapp, :some_key}, {:myapp, :another_key}]
+    handler:   [{:myapp, :some_key}, {:myapp, :another_key}],
     handler:   fn(value) -> Logger.configure(value) end)
 end
 ```

@@ -10,7 +10,8 @@ defmodule Test.Feature.Steps.Environment do
     {:ok, state}
   end
 
-  defand ~r/^the following environment variables exist$/, %{table: variables}, state = %{environment_prefix: environment_prefix} do
+  defand ~r/^the following environment variables exist$/, %{table: variables}, state do
+    environment_prefix = Map.get(state, :environment_prefix) || ""
     Enum.each(variables, fn(%{key: key, value: value}) ->
       System.put_env("#{environment_prefix}#{key}", value)
     end)
@@ -22,9 +23,15 @@ defmodule Test.Feature.Steps.Environment do
     {:ok, state}
   end
 
-  defthen ~r/^my application should be configured$/, _vars, %{expected_configuration: expected_configuration} do
+  defthen ~r/^my application should be configured$/, _vars, state = %{expected_configuration: expected_configuration} do
+    all_expected_keys = Enum.map(expected_configuration, &(Map.get(&1, :key)))
+    only = Map.get(state, :only, all_expected_keys)
     Enum.each(expected_configuration, fn(%{key: key, value: value}) ->
-       assert Application.get_env(:example_app, String.to_atom(key)) == value
+      if key in only do
+        assert Application.get_env(:example_app, String.to_atom(key)) == value
+      else
+        refute Application.get_env(:example_app, String.to_atom(key))
+      end
     end)
     {:ok, %{}}
   end

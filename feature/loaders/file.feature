@@ -47,3 +47,17 @@ Feature: It can load configuration from a configured directory
     And I have not configured the file_directories
     When I run Weave's File loader
     Then it shouldn't fail and return an empty list
+
+  Scenario: Do not load a file if a file filter has been defined and it's not inside
+    Given I have created my own Weave module
+    And I have configured Weave's file loader to load from a single directory, "/tmp/secrets"
+    And the directory exists
+    And the following files exist there
+      | file_name         | contents                  |
+      | cookie_secret     | I am super Secur3         |
+      | database_password | my-super-secret-password  |
+    And I have configured the following variables in variables filter
+      | key |
+      | cookie_secret |
+    When I run Weave's File loader
+    Then my application should be configured

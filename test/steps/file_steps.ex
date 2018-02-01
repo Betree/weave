@@ -73,8 +73,15 @@ defmodule Test.Feature.Steps.File do
       end
     )
 
+    all_expected_keys = Enum.map(expected_configuration, &(Map.get(&1, :file_name)))
+    only = Map.get(state, :only, all_expected_keys)
+
     Enum.each(expected_configuration, fn(%{file_name: key, contents: value}) ->
-      assert Application.get_env(:example_app, String.to_atom(key)) == value
+      if key in only do
+        assert Application.get_env(:example_app, String.to_atom(key)) == value
+      else
+        refute Application.get_env(:example_app, String.to_atom(key))
+      end
     end)
 
     {:ok, %{}}

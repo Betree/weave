@@ -13,8 +13,23 @@ Feature: It can load configuration from environment variables
     When I run Weave's Environment loader
     Then my application should be configured
 
-  Scenario: No environment prefix configured
+  Scenario: No environment prefix configured nor variables filter
     Given I have created my own Weave module
     And I have not configured the environment prefix
+    And I have not configured the variables filter with keyword "only"
     When I run Weave's Environment loader
     Then it shouldn't fail and return an empty list
+
+  Scenario: No environment prefix configured but a variables filter list is provided
+    Given I have created my own Weave module
+    And I have configured the following variables in variables filter
+    | key |
+    | database_host |
+    And the following environment variables exist
+    | key               | value               |
+    | database_host     | another-db-host.io  |
+    | database_port     | 4242                |
+    | full_universe     | 42                  |
+    And I have not configured the environment prefix
+    When I run Weave's Environment loader
+    Then my application should be configured
