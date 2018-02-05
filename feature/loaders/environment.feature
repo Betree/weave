@@ -25,9 +25,10 @@ Feature: It can load configuration from environment variables
     And I have configured the following variables in variables filter
     | key |
     | database_host |
+    | database_port |
     And the following environment variables exist
     | key               | value               |
-    | database_host     | another-db-host.io  |
+    | DATABASE_HOST     | another-db-host.io  |
     | database_port     | 4242                |
     | full_universe     | 42                  |
     And I have not configured the environment prefix

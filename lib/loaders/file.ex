@@ -34,9 +34,9 @@ defmodule Weave.Loaders.File do
     with file_directories when file_directories !== [:weave_no_directory]
       <- get_configured_directories()
     do
-      accepted_filenames = Application.get_env(:weave, :only)
+      only_filenames = Application.get_env(:weave, :only)
       configured_keys = Enum.map(file_directories, fn(directory) ->
-        load_configuration_from_directory(directory, handler, accepted_filenames)
+        load_configuration_from_directory(directory, handler, only_filenames)
       end)
 
       configured_keys
@@ -71,7 +71,8 @@ defmodule Weave.Loaders.File do
 
   defp filter_filenames(files, nil), do: files
   defp filter_filenames(files, accepted_filenames) do
-    # Allow variables names to be passed as string or atoms by converting everything to strings here
+    # Allow variables names to be passed as string or atoms
+    # by converting everything to strings here
     only = Enum.map(accepted_filenames, &to_string/1)
     Enum.filter(files, fn file ->
       file in only

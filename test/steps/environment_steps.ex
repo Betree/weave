@@ -15,7 +15,10 @@ defmodule Test.Feature.Steps.Environment do
     Enum.each(variables, fn(%{key: key, value: value}) ->
       System.put_env("#{environment_prefix}#{key}", value)
     end)
-    {:ok, Map.merge(state, %{expected_configuration: variables})}
+    expected = Enum.map variables, fn %{key: key, value: value} ->
+      %{key: String.downcase(key), value: value}
+    end
+    {:ok, Map.merge(state, %{expected_configuration: expected})}
   end
 
   defwhen ~r/^I run Weave's Environment loader$/, _vars, state do

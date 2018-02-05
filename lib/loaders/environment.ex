@@ -50,10 +50,11 @@ defmodule Weave.Loaders.Environment do
 
   defp filter_env_only(variables, nil), do: variables
   defp filter_env_only(variables, only) do
-    # Allow variables names to be passed as string or atoms by converting everything to strings here
-    only = Enum.map(only, &to_string/1)
+    # Allow variables names to be passed as string
+    # or atoms by converting everything to strings here
+    only = Enum.map(only, fn key -> String.downcase(to_string(key))  end)
     Enum.filter(variables, fn {key, _} ->
-      key in only
+      String.downcase(key) in only
     end)
   end
 end
